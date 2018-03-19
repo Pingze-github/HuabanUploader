@@ -1,8 +1,8 @@
 {
-  "name": "vuetest",
-  "productName": "vuetest",
+  "name": "HuabanUploader",
+  "productName": "HuabanUploader",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "花瓣网图片上传器",
   "main": "src/index.js",
   "scripts": {
     "start": "electron src/index.js",
@@ -12,7 +12,7 @@
     "lint": "eslint src --color"
   },
   "keywords": [],
-  "author": "Duoyi",
+  "author": "pingze",
   "license": "MIT",
   "config": {
     "forge": {
@@ -32,7 +32,7 @@
         "packageManager": "npm"
       },
       "electronWinstallerConfig": {
-        "name": "vuetest"
+        "name": "HuabanUploader"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
@@ -42,7 +42,7 @@
       },
       "windowsStoreConfig": {
         "packageName": "",
-        "name": "vuetest"
+        "name": "HuabanUploader"
       }
     }
   },
@@ -50,9 +50,7 @@
     "electron-compile": "^6.4.2",
     "electron-squirrel-startup": "^1.0.0",
     "image-size": "^0.6.2",
-    "iview": "^2.11.0",
-    "pretty-bytes": "^4.0.2",
-    "vue": "^2.5.16"
+    "pretty-bytes": "^4.0.2"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
