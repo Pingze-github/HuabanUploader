@@ -1,0 +1,7 @@
+npm-debug.log
+npm-debug.log.*
+!.gitkeep
+node_modules/
+.idea/
+node_modules.zip
+out/

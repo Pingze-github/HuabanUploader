@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../static/index.css">
+    <link rel="stylesheet" type="text/css" href="../static/iview/iview.min.css">
+    <script type="text/javascript" src="../static/vue.min.js"></script>
+    <script type="text/javascript" src="../static/iview/iview.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <Layout>
+        <i-header>
+          <i-form ref="formInline" inline>
+            <Formitem class="input" prop="dirPath">
+              <i-input type="text" v-model="dirPath" placeholder="请输入图片目录路径"></i-input>
+            </Formitem>
+            <Formitem>
+              <i-button type="primary" @click="openDir()">打开</i-button>
+            </Formitem>
+          </i-form>
+        </i-header>
+        <i-content>
+          <i-table border :columns="imgsHead" :data="imgs"></i-table>
+        </i-content>
+        <i-footer>Footer</i-footer>
+      </Layout>
+    </div>
+    <script>
+      require('./renderer');
+    </script>
+  </body>
+</html>

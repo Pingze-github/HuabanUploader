@@ -1,0 +1,36 @@
+html, body, #app, .ivu-layout {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.ivu-layout-header {
+    height: 64px;
+}
+.ivu-layout-header form {
+    display: flex;
+    flex-flow: row;
+}
+.ivu-layout-header formitem {
+    display: inline-block;
+}
+.ivu-layout-header .input {
+    flex: 1;
+}
+.ivu-layout-header input {
+    flex: 1;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.ivu-layout-header button {
+    width: 100px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.ivu-layout-footer{
+    height: 22px;
+    line-height: 22px;
+    padding: 0 15px 0 15px !important;
+    border-top: 1px solid #cccccc;
+}
