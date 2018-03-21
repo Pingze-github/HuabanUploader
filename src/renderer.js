@@ -1,5 +1,6 @@
 
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, shell } from 'electron'
+import prettyBytes from 'pretty-bytes'
 
 new Vue({
   el: '#app',
@@ -15,12 +16,19 @@ new Vue({
         title: '预览',
         key: 'path',
         width: '150px',
-        render: (h, params) => h('img', {
+        render: (h, params) => h('a', {
           attrs: {
-            src: params.row.path,
-            style: 'max-height:100px;',
+            href: params.row.path,
+            target: '_blank',
           },
-        }),
+        }, [
+          h('img', {
+            attrs: {
+              src: params.row.path,
+              style: 'max-height:100px;max-width:100px;',
+            },
+          })
+        ]),
       },
       {
         title: '路径',
@@ -29,10 +37,14 @@ new Vue({
         sortType: 'asc',
         render: (h, params) => h('a', {
           attrs: {
-            href: params.row.path,
-            title: params.row.path,
-            target: '_blank',
+            href: 'javascript:void(0);',
+            title: params.row.path
           },
+          on: {
+            click: () =>{
+              shell.showItemInFolder(params.row.path);
+            }
+          }
         }, params.row.relativePath),
       },
       {
@@ -45,7 +57,7 @@ new Vue({
         title: '体积',
         key: 'size',
         sortable: true,
-        render: (h, params) => h('span', require('pretty-bytes')(params.row.size)),
+        render: (h, params) => h('span', prettyBytes(params.row.size)),
         width: '100px',
       },
       {
@@ -83,8 +95,7 @@ new Vue({
     inputTitle: '',
   },
   mounted() {
-    // this.prettyBytes = require('pretty-bytes');
-    this.dirPath = 'C:\\Users\\Duoyi\\Pictures';
+    this.dirPath = 'D:\\Pictures';
     ipcRenderer.on('imgs', (event, { succeed, data }) => {
       if (!succeed) {
         this.$Message.info('尝试打开目录失败，请检查路径');

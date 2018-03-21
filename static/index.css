@@ -38,6 +38,7 @@ html, body, #app, .ivu-layout {
     cursor: pointer;
 }
 .ivu-table-body td:nth-child(2) .ivu-table-cell {
+    text-align: center;
     padding-top: 10px;
     padding-left: 10px !important;
 }

@@ -1,7 +1,6 @@
 
-// import getImgStats from './getImgStats';
 const fs = require('fs');
-const path = require('path');
+const path = require('path').posix;
 const sizeOf = require('image-size');
 const readChunk = require('read-chunk');
 const getFileType = require('file-type');
@@ -36,7 +35,7 @@ function dateFormat(date, fmt = 'yyyy-MM-dd hh:mm:ss') {
   return fmt;
 }
 
-function getDirImgs(dirpath, deep, imgRegex) {
+function getDirImgsR(dirpath, deep, imgRegex, baseDirpath) {
   return new Promise((resolve, reject) => {
     fs.readdir(dirpath, (err, names) => {
       if (err) return reject(err);
@@ -50,7 +49,7 @@ function getDirImgs(dirpath, deep, imgRegex) {
         if (isFile && isImg) {
           const img = {
             path: filepath,
-            relativePath: path.resolve(filepath).replace(path.resolve(dirpath), '').replace(/^(\\)|(\/)/, ''),
+            relativePath: path.resolve(filepath).replace(path.resolve(baseDirpath), '').replace(/^(\\)|(\/)/, ''),
             size: stat.size,
             mtime: dateFormat(stat.mtime),
             ctime: dateFormat(stat.ctime),
@@ -70,7 +69,7 @@ function getDirImgs(dirpath, deep, imgRegex) {
           }
           imgs.push(img);
         }
-        if (deep === true && !isFile) deeperPromises.push(getDirImgs(filepath, true));
+        if (deep === true && !isFile) deeperPromises.push(getDirImgsR(filepath, true, imgRegex, baseDirpath));
       });
       if (deep !== true) return resolve(imgs);
       Promise.all(deeperPromises).then((imgsDeepers) => {
@@ -83,6 +82,10 @@ function getDirImgs(dirpath, deep, imgRegex) {
       });
     });
   });
+}
+
+function getDirImgs(dirpath, deep, imgRegex) {
+  return getDirImgsR(dirpath, deep, imgRegex, dirpath);
 }
 
 export default getDirImgs;
