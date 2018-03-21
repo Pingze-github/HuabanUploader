@@ -11,7 +11,7 @@ function isNameImg(name, imgRegex = imgRegexDefault) {
   return imgRegex.test(name);
 }
 
-function dateFormat(date, fmt = 'yyyy-MM-dd hh:mm:ss') {
+function dateFormat(date, fmt = 'yyyy/MM/dd hh:mm:ss') {
   date = date || new Date();
   let o = {
     'M+': date.getMonth() + 1,
@@ -45,8 +45,12 @@ function getDirImgsR(dirpath, deep, imgRegex, baseDirpath) {
         const filepath = path.join(dirpath, filename);
         const stat = fs.statSync(filepath);
         const isFile = stat.isFile();
-        const isImg = isNameImg(filename, imgRegex);
-        if (isFile && isImg) {
+        let fileType;
+        if (isFile) {
+          const fileTypeObj = getFileType(readChunk.sync(filepath, 0, 4100));
+          fileType = fileTypeObj && fileTypeObj.mime.startsWith('image') ? fileTypeObj.mime : null;
+        }
+        if (fileType) {
           const img = {
             path: filepath,
             relativePath: path.resolve(filepath).replace(path.resolve(baseDirpath), '').replace(/^(\\)|(\/)/, ''),
@@ -54,9 +58,8 @@ function getDirImgsR(dirpath, deep, imgRegex, baseDirpath) {
             mtime: dateFormat(stat.mtime),
             ctime: dateFormat(stat.ctime),
             ext: filename.match(/\.(.+?)$/)[1],
+            fileType: fileType,
           };
-          const fileType = getFileType(readChunk.sync(filepath, 0, 4100));
-          img.fileType = fileType ? fileType.mime : '未识别';
           try {
             const dimensions = await sizeOf(filepath);
             img.dimension = '' + dimensions.width + 'x' + dimensions.height;

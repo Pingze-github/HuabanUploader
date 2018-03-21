@@ -22,7 +22,7 @@
           </i-form>
         </i-header>
         <i-content>
-          <i-table border stripe :columns="imgsHead" :data="imgs" @on-selection-change="showSelections"></i-table>
+          <i-table border stripe :columns="imgsHead" :data="imgs" @on-selection-change="onSelect"></i-table>
         </i-content>
         <i-footer>
           <span class="status">{{statusStr}}</span>

@@ -13,9 +13,9 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 750,
     useContentSize: true,
-    width: 1000,
+    width: 1100,
     backgroundColor: '#f5f7f9',
   });
 
@@ -23,9 +23,7 @@ function createWindow() {
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  mainWindow.on('closed', () => mainWindow = null);
 
 }
 
@@ -74,7 +72,25 @@ ipcMain.on('open-dir', (event, dirPath) => {
   });
 });
 
+ipcMain.on('show-img', (event, path) => {
+  let window = new BrowserWindow({
+    autoHideMenuBar: true,
+    backgroundColor: 'black',
+  });
+
+  window.loadURL(path);
+
+  window.on('close', () => window = null);
+});
+
+ipcMain.on('upload', (event, imgs) => {
+  console.log(imgs);
+  // TODO 上传，每完成一张，都回调，并发给前端
+});
+
 // TODO 输入部分切换效果
 // TODO 登录和显示用户信息
 // TODO 上传功能
 // TODO ICON
+
+// TODO 数量过多时的处理 1、过多时提示，并做一定处理 2、过多时不显示预览或懒加载

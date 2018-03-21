@@ -15,20 +15,18 @@ new Vue({
       {
         title: '预览',
         key: 'path',
-        width: '150px',
-        render: (h, params) => h('a', {
+        width: '120px',
+        render: (h, params) => h('img', {
           attrs: {
-            href: params.row.path,
-            target: '_blank',
+            src: params.row.path,
+            style: 'max-height:120px;max-width:100px;cursor:pointer;',
           },
-        }, [
-          h('img', {
-            attrs: {
-              src: params.row.path,
-              style: 'max-height:100px;max-width:100px;',
-            },
-          })
-        ]),
+          on: {
+            click() {
+              ipcRenderer.send('show-img', params.row.path);
+            }
+          }
+        }),
       },
       {
         title: '路径',
@@ -41,7 +39,7 @@ new Vue({
             title: params.row.path
           },
           on: {
-            click: () =>{
+            click() {
               shell.showItemInFolder(params.row.path);
             }
           }
@@ -51,20 +49,20 @@ new Vue({
         title: '格式',
         key: 'fileType',
         sortable: true,
-        width: '100px',
+        width: 100,
       },
       {
         title: '体积',
         key: 'size',
         sortable: true,
         render: (h, params) => h('span', prettyBytes(params.row.size)),
-        width: '100px',
+        width: 100,
       },
       {
         title: '尺寸',
         key: 'dimension',
         sortable: true,
-        width: '100px',
+        width: 100,
         sortMethod: (a, b, type) => {
           const calVal = (v) => {
             const xIndex = v.indexOf('x');
@@ -81,18 +79,27 @@ new Vue({
         title: '创建时间',
         key: 'ctime',
         sortable: true,
+        width: 150,
       },
       {
         title: '修改时间',
         key: 'mtime',
         sortable: true,
+        width: 150,
       },
+      // {
+      //   title: '状态',
+      //   key: 'status',
+      //   sortable: true,
+      //   width: 85,
+      // },
     ],
     imgs: [],
     statusStr: '',
     isDirOpened: false,
     submitButtonText: '打开',
     inputTitle: '',
+    selections: [],
   },
   mounted() {
     this.dirPath = 'D:\\Pictures';
@@ -115,14 +122,17 @@ new Vue({
       }
     },
     upload() {
-
+      ipcRenderer.send('upload', this.selections);
     },
     openDir() {
       ipcRenderer.send('open-dir', this.dirPath);
       this.statusStr = '正在打开目录...';
     },
     openDirAfter(data) {
-      this.imgs = data;
+      this.imgs = data.map(v => {
+        v.status = '未选中';
+        return v;
+      });
       this.isDirOpened = true;
       this.submitButtonText = '上传';
       this.statusStr = `发现${this.imgs.length}项, 等待选中文件`;
@@ -136,7 +146,17 @@ new Vue({
       this.statusStr = '等待打开目录';
       this.inputTitle = '';
     },
-    showSelections(selections) {
+    onSelect(selections) {
+      // 重设status属性会导致选中失败
+      // const selectPathList = selections.map(selection => selection.path);
+      // this.imgs.forEach(img => {
+      //   if (selectPathList.includes(img.path)) {
+      //     img.status = '已选中';
+      //   } else {
+      //     img.status = '未选中';
+      //   }
+      // });
+      this.selections = selections;
       this.statusStr = `已选中${selections.length}项`;
     },
   },
