@@ -49,8 +49,11 @@
   "dependencies": {
     "electron-compile": "^6.4.2",
     "electron-squirrel-startup": "^1.0.0",
+    "file-type": "^7.6.0",
+    "glob-watcher": "^5.0.1",
     "image-size": "^0.6.2",
-    "pretty-bytes": "^4.0.2"
+    "pretty-bytes": "^4.0.2",
+    "read-chunk": "^2.1.0"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",

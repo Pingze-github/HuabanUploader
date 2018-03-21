@@ -6,6 +6,10 @@ html, body, #app, .ivu-layout {
 }
 .ivu-layout-header {
     height: 64px;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
 }
 .ivu-layout-header form {
     display: flex;
@@ -17,6 +21,9 @@ html, body, #app, .ivu-layout {
 .ivu-layout-header .input {
     flex: 1;
 }
+.ivu-layout-header input[disabled]{
+    cursor: pointer !important;
+}
 .ivu-layout-header input {
     flex: 1;
     border-bottom-right-radius: 0;
@@ -27,10 +34,25 @@ html, body, #app, .ivu-layout {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
-
+.ivu-table-header th .ivu-table-cell span {
+    cursor: pointer;
+}
+.ivu-table-body td:nth-child(2) .ivu-table-cell {
+    padding-top: 10px;
+    padding-left: 10px !important;
+}
+.ivu-layout-content {
+    padding-top: 64px;
+    padding-bottom: 23px;
+}
 .ivu-layout-footer{
+    font-size: 12px !important;
     height: 22px;
     line-height: 22px;
     padding: 0 15px 0 15px !important;
     border-top: 1px solid #cccccc;
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+    width: 100%;
 }
